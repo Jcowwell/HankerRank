@@ -1,0 +1,81 @@
+"""
+Task:
+Consider a list (list = []). You can perform the following commands:
+1. insert i e: Insert integer e at position i.
+2. print: Print the list.
+3. remove e: Delete the first occurrence of integer .
+4. append e: Insert integer e at the end of the list.
+5. sort: Sort the list.
+6. pop: Pop the last element from the list.
+7. reverse: Reverse the list.
+Initialize your list and read in the value of n followed by n lines of commands where each command will be of the 7 types listed above. 
+Iterate through each command in order and perform the corresponding operation on your list.
+
+Example:
+N = 4
+append 1
+append 2
+insert 3 1
+print
+
+append 1: Append 1 tot he list, arr = 1
+appned 2: append 2 to the list arr = [1,2]
+insert 3 1: insert 3 at index 1, arr = [1,3,2]
+print array
+
+Output:
+[1,3,2]
+
+Input Format: 
+The first line contains an integer, n, denoting the number of commands. 
+Each line i of the n subsequent lines contains one of the commands described above.
+
+Constraints: 
+The elements added to the list must be integers.
+
+Output Format
+For each command of type print, print the list on a new line.
+
+"""
+
+# DN: # of commands to come
+
+N = 12
+commands = (
+"""insert 0 5
+insert 1 10
+insert 0 6
+print
+remove 6
+append 9
+append 1
+sort
+print
+pop
+reverse
+print
+"""
+)
+
+_list: list = []
+
+keywords = {
+    'insert': _list.insert,
+    'remove': _list.remove,
+    'append': _list.append,
+    'sort': _list.sort,
+    'pop': _list.pop,
+    'reverse': _list.reverse
+}
+
+def parse(N:int):
+    for line in commands.splitlines():
+        command, *args = line.split()
+        if command == 'print':
+            print(_list)
+            continue
+        # print(f'Command: {command}, Arguments: {args}')
+        args = list(map(int,args))
+        keywords[command](*args)
+
+parse(N)
