@@ -17,30 +17,30 @@ Output Format
 """
 
 # gets midpoints of a row based on how long of an input. used to insert an input in trhe middle. 
-def _midpoints(input: int, insert_size:int) -> list:
+def generate_midpoints(input: int, insert_width:int) -> list:
     input_midpoint = input//2
-    left_starting_point = input_midpoint - (insert_size // 2)
-    right_ending_point = (input_midpoint + (insert_size // 2)) + 1
-    return [x for x in range(left_starting_point, right_ending_point)]
+    starting_point = input_midpoint - (insert_width // 2)
+    ending_point = (input_midpoint + (insert_width // 2)) + 1
+    return [x for x in range(starting_point, ending_point)]
 
 # creates row pattern of a row based on an = (2n - 1) arthimetic sequence
-def _row_pattern(pattern: list, index: int) -> list:
+def generate_pattern(pattern: list, row: int) -> list:
     # used to adjust array to be based on postioning
-    index+= 1
+    row+= 1
     #  creates (2n -1) amount of a pattern based on input
-    return pattern * (2 * index - 1)
+    return pattern * (2 * row - 1)
 
 # creates outer pattern sequence for an input row and column
 def _outer_patttern(row: int, column: int, pattern: list, border: str) -> list:
     # list to store row patterns
     row_pattern: list = []
     # pattern based on which row were on 
-    patterns: list = _row_pattern(pattern=pattern, index=row)
+    patterns: list = generate_pattern(pattern=pattern, row=row)
     # row center points, used for inserting pattern in center of row
-    row_center_points: list = _midpoints(input=column, insert_size=len(patterns))
+    midpoints: list = generate_midpoints(input=column, insert_width=len(patterns))
     for y in range(column): # Columns
         # if in the center of row 
-        if (y in row_center_points):
+        if (y in midpoints):
             # append pattern
             row_pattern.append(patterns.pop(0))
         else:
@@ -53,7 +53,7 @@ def _mid_pattern(column: int, pattern: list, border: str) -> list:
      # list to store row pattern
     row_pattern: list = []
     # row center points, used for inserting pattern in center of row
-    center_points = _midpoints(input=column,insert_size=len(pattern))
+    center_points = generate_midpoints(input=column,insert_width=len(pattern))
     for y in range(column):
         # if in the center of the row
         if (y in center_points):
@@ -66,7 +66,7 @@ def _mid_pattern(column: int, pattern: list, border: str) -> list:
 
 def generate_door_mat(row: int, column: int, center_pattern: list, pattern: list, border: str):
     # main matrix
-    matrix = []
+    door_mat = []
     # segmented parts of matrix
     top: list= [] ; center: list = [] ; bottom: list = []
     # midpoint of row
@@ -94,8 +94,8 @@ def generate_door_mat(row: int, column: int, center_pattern: list, pattern: list
     bottom.reverse()
     # merge parts into single matrix
     for part in [top, center, bottom]:
-        matrix.extend(part)
-    return matrix
+        door_mat.extend(part)
+    return door_mat
     
 
 center_pattern = ['W','E','L','C','O','M','E']
