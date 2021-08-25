@@ -35,25 +35,18 @@ Constraints
     0 < len(S) <= 10^6
     Vowels are only defined as AEIOU. In this problem, Y is not considered a vowel.
 """
-from itertools import combinations
-from collections import Counter
-
-vowels: dict = {'A':'A','E':'E','I':'I','O':'O','U':'U'}
-
-def generate_substrings(string: str) ->  list:
-    length = len(string) + 1
-    return [string[x:y] for x, y in combinations(range(length), r=2)]
-
 def minion_game(string: str):
+    vowels: set = {'A','E', 'I', 'O', 'U'}
     stuart_total: int = 0
     kevin_total: int = 0
-    substrings: list = generate_substrings(string=string)
-    substring_counter: Counter = Counter(substrings)
-    for substring, count in substring_counter.items():
-        if substring[0] in vowels:
-            kevin_total += count
+    # since were searching for contingous substrings the # of substrings stirng[i] will produce is:
+    # the length of the string minus it's place in the string (since it won't be using the chars before it): len(string) - index
+    for index in range(len(string)):
+        # for in on a set SHOULD be O(1) on average
+        if string[index] in vowels:
+            kevin_total += (len(s)-index)
         else:
-            stuart_total += count
+            stuart_total += (len(s)-index)
     if kevin_total > stuart_total:
         print(f'Kevin {kevin_total}')
     elif stuart_total > kevin_total:
@@ -63,5 +56,5 @@ def minion_game(string: str):
     
 
 if __name__ == '__main__':
-    s = input
-    print(minion_game(s))
+    s = input()
+    minion_game(s)
